@@ -1,0 +1,4 @@
+option('flatpak', type: 'boolean', value: false)
+option('snap', type: 'boolean', value: false)
+
+option('use_ivy', type: 'boolean', value: true)

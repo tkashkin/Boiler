@@ -1,0 +1,17 @@
+Source: com.github.tkashkin.boiler
+Section: x11
+Priority: optional
+Maintainer: tkashkin <tkashkin@gmail.com>
+Build-Depends: meson (>= 0.40),
+               valac (>= 0.16),
+               debhelper (>= 9),
+               libgranite-dev,
+               libgtk-3-dev,
+               libglib2.0-dev,
+               libgee-0.8-dev
+Standards-Version: 4.1.4
+
+Package: com.github.tkashkin.boiler
+Architecture: any
+Depends: ${misc:Depends}, ${shlibs:Depends}, bluez, bluez-tools
+Description: Simple app to control Redmond Skykettle RK-G200S

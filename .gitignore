@@ -1,0 +1,16 @@
+build/
+
+debian/*
+!debian/source/
+!debian/changelog
+!debian/compat
+!debian/control
+!debian/copyright
+!debian/rules
+
+*~
+
+.buildconfig
+
+snap/*
+!snap/snapcraft.yaml

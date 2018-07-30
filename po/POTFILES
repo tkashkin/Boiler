@@ -1,0 +1,7 @@
+data/com.github.tkashkin.boiler.appdata.xml.in
+data/com.github.tkashkin.boiler.desktop.in
+data/com.github.tkashkin.boiler.gschema.xml
+
+src/app.vala
+
+

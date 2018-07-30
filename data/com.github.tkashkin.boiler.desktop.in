@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Boiler
+GenericName=Boiler
+Comment=Control your kettle remotely
+Categories=Utility;
+Keywords=Kettle;Teapot;Redmond;Remote;Control;
+Exec=com.github.tkashkin.boiler
+X-GNOME-Gettext-Domain=com.github.tkashkin.boiler
+Icon=com.github.tkashkin.boiler
+Terminal=false
+Type=Application
