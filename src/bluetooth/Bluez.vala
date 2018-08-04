@@ -221,10 +221,13 @@ namespace Boiler.Bluetooth.Bluez
 
 					(device as DBusProxy).g_properties_changed.connect((changed, invalid) => {
 						var connected = changed.lookup_value("Connected", GLib.VariantType.BOOLEAN);
-						if(connected != null)
+						if(connected == null || connected.get_boolean() == false)
 						{
-							check_global_state();
+							_devices.unset(path);
+							device_removed(device);
 						}
+
+						check_global_state();
 					});
 				}
 				catch(Error e)

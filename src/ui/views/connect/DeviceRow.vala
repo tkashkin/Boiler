@@ -1,15 +1,15 @@
 using Gtk;
 
 using Boiler.Bluetooth;
+using Boiler.Devices.Abstract;
 
 class Boiler.UI.Views.Connect.DeviceRow: Gtk.ListBoxRow
 {
 	public Bluez.Device device { get; construct; }
 	
-	private Boiler.Devices.Abstract.BTKettle? kettle;
+	private BTKettle? kettle;
 	
-	private Label label;
-	private ToggleButton? boil_btn;
+	public signal void connected(BTKettle kettle);
 
 	public DeviceRow(Bluez.Device device)
 	{
@@ -23,7 +23,7 @@ class Boiler.UI.Views.Connect.DeviceRow: Gtk.ListBoxRow
 		
 		var image = new Image.from_icon_name(icon, IconSize.DND);
 
-		label = new Label(device.name ?? device.address);
+		var label = new Label(device.name ?? device.address);
 		label.ellipsize = Pango.EllipsizeMode.END;
 		label.hexpand = true;
 		label.xalign = 0;
@@ -33,37 +33,19 @@ class Boiler.UI.Views.Connect.DeviceRow: Gtk.ListBoxRow
 		hbox.add(image);
 		hbox.add(label);
 		
-		kettle = Devices.connect(device);
-		if(kettle != null)
+		if(device.name in Devices.SUPPORTED)
 		{
-			kettle.notify["temperature"].connect(update);
-			kettle.notify["is-boiling"].connect(update);
+			var connect_btn = new Button.with_label("Connect");
 			
-			boil_btn = new ToggleButton.with_label("Boil");
-			
-			boil_btn.toggled.connect(() => {
-				if(boil_btn.active && !kettle.is_boiling)
-				{
-					kettle.start_boiling();
-				}
-				else if(!boil_btn.active && kettle.is_boiling)
-				{
-					kettle.stop_boiling();
-				}
+			connect_btn.clicked.connect(() => {
+				kettle = Devices.connect(device);
+				if(kettle != null) connected(kettle);
 			});
 			
-			hbox.add(boil_btn);
+			hbox.add(connect_btn);
 		}
 
 		child = hbox;
 		show_all();
-	}
-	
-	private void update()
-	{
-		if(kettle == null || boil_btn == null) return;
-		
-		label.label = @"$(device.name): $(kettle.temperature)°; " + (kettle.is_boiling ? "boiling" : "");
-		boil_btn.active = kettle.is_boiling;
 	}
 }

@@ -3,5 +3,7 @@
 	<gresource prefix="/com/github/tkashkin/boiler/icons">
 		<file alias="scalable/actions/device-RK-G200S.png">devices/RK-G200S/RK-G200S.png</file>
 		<file alias="scalable/actions/device-RK-G200S-symbolic.svg">devices/RK-G200S/RK-G200S-symbolic.svg</file>
+
+		<file alias="scalable/apps/com.github.tkashkin.boiler-symbolic.svg">devices/RK-G200S/RK-G200S-symbolic.svg</file>
 	</gresource>
 </gresources>

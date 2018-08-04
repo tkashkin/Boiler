@@ -4,9 +4,10 @@ using Boiler.Bluetooth;
 
 public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKettle
 {
-	public const string[] DEVICES = { "RK-G200S" };	
+	public const string[] DEVICES = { "RK-G200S", "RK-G211S" };
 	
-	private bool authenticated = false;
+	private bool is_authenticated = false;
+	private bool status_thread_running = false;
 	private uint8 counter = 0;
 	
 	private HashTable<string, Variant> _params = new HashTable<string, Variant>(str_hash, null);
@@ -18,23 +19,65 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		Object(bt_device: device, btmgr: btmgr);
 		
-		debug("[RK-G2XX] %s: %s", device.name, device.address);
+		connect();
+	}
+
+	private void connect()
+	{
+		if(is_connected) return;
 		
-		device.connect.begin((obj, res) => {
-			device.connect.end(res);
-			
-			debug("[RK-G2XX] Connected");
-		
-			btmgr.characteristics.foreach(@char => {
-				char_added(@char);
-				return true;
+		log("Connecting to %s [%s]".printf(bt_device.name, bt_device.address));
+
+		try
+		{
+			bt_device.connect.begin((obj, res) => {
+				try
+				{
+					bt_device.connect.end(res);
+
+					is_connected = true;
+
+					log("Connected");
+
+					if(cmd_char == null || res_char == null)
+					{
+						btmgr.characteristics.foreach(@char => {
+							char_added(@char);
+							return true;
+						});
+					}
+				}
+				catch(Error e)
+				{
+					warning(e.message);
+				}
 			});
-		});
+		}
+		catch(Error e)
+		{
+			warning(e.message);
+		}
 	}
 	
+	private void reconnect()
+	{
+		log("Reconnecting to %s [%s]".printf(bt_device.name, bt_device.address));
+
+		new Thread<void*>("RK-G2XX-reconnect-thread", () => {
+			while(true)
+			{
+				connect();
+				Thread.usleep(5000000);
+				if(is_connected) break;
+			}
+
+			return null;
+		});
+	}
+
 	private void char_added(Bluez.GATTCharacteristic c)
 	{
-		debug("[RK-G2XX] Characteristic: %s", c.UUID);
+		log("Characteristic: " + c.UUID);
 			
 		switch(c.UUID)
 		{
@@ -54,49 +97,65 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		if(cmd_char == null || res_char == null) return;
 		
-		debug("[RK-G2XX] Init");
+		log("Init");
 		
-		res_char.start_notify();
+		try
+		{
+			res_char.start_notify();
+		}
+		catch(Error e)
+		{
+			warning(e.message);
+		}
 		
 		auth();
 	}
 	
 	private uint8[] send_command(Command command, uint8[] args)
 	{
+		if(!is_connected || cmd_char == null || res_char == null) return {};
+
 		var cmd_index = counter++;
 		
 		try
 		{
 			var bytes = command.bytes(cmd_index, args);
-			debug("[RK-G2XX] -> %s(%u): %s", command.name(), cmd_index, Converter.bin_to_hex(bytes, ' '));
+			log("-> %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(bytes, ' ')));
 			cmd_char.write_value(bytes, _params);
 			
+			if(!is_connected || cmd_char == null || res_char == null) return {};
+
 			var response = res_char.read_value(_params);
-			debug("[RK-G2XX] <- %s(%u): %s", command.name(), cmd_index, Converter.bin_to_hex(response, ' '));
+			log("<- %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(response, ' ')));
 			return response;
 		}
 		catch(Error e)
 		{
-			authenticated = true;
+			warning(e.message);
+			is_authenticated = is_connected = false;
+			cmd_char = res_char = null;
+			reconnect();
 			return {};
 		}
 	}
 	
 	private void auth()
 	{
-		debug("[RK-G2XX] Authenticating...");
+		log("Authenticating...");
 		
 		while(true)
 		{
+			if(!is_connected) return;
+
 			var res = send_command(Command.AUTH, AUTH_KEY);
 			if(res.length < 4 || res[3] == 0)
 			{
-				warning("[RK-G2XX] Authentication failed, retrying...");
+				log("Authentication failed, retrying...");
 			}
 			else
 			{
-				debug("[RK-G2XX] Authentication succeeded");
-				authenticated = true;
+				log("Authentication succeeded");
+				is_authenticated = true;
 				start_status_thread();
 				break;
 			}
@@ -105,7 +164,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	
 	public override void start_boiling()
 	{
-		debug("[RK-G2XX] Starting boiling...");
+		log("Starting boiling...");
 		send_command(Command.START_BOILING, {});
 		is_boiling = true;
 	}
@@ -113,35 +172,50 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	public override void stop_boiling()
 	{
 		if(!is_boiling) return;
-		debug("[RK-G2XX] Stopping boiling...");
+		log("Stopping boiling...");
 		send_command(Command.STOP_BOILING, {});
 		is_boiling = false;
 	}
 	
 	private void start_status_thread()
 	{
-		new Thread<void*>("RK-G2XX-status-thread", () => {		
+		if(status_thread_running) return;
+		new Thread<void*>("RK-G2XX-status-thread", () => {
 			while(true)
 			{
+				status_thread_running = true;
 				var status = send_command(Command.STATUS, {});
 				if(status.length < 12) break;
 				temperature = status[8];
 				is_boiling = status[11] != 0;
-				Thread.usleep(1000000);
+				Thread.usleep(is_boiling || temperature > 95 ? 1000000 : 10000000);
+				if(!is_authenticated || !is_connected)
+				{
+					reconnect();
+					break;
+				}
 			}
 			
+			status_thread_running = false;
+
 			return null;
 		});
 	}
 	
+	private void log(string s)
+	{
+		status = s;
+		debug("[RK-G2XX] " + s);
+	}
+
 	private const string UART_SERVICE_UUID = "6e400001-b5a3-f393-e0a9-e50e24dcca9e";
-	private const string CMD_CHAR_UUID	 = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
-	private const string RES_CHAR_UUID	 = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
-	private const string CMD_DESC_UUID	 = "00002902-0000-1000-8000-00805f9b34fb";
+	private const string CMD_CHAR_UUID     = "6e400002-b5a3-f393-e0a9-e50e24dcca9e";
+	private const string RES_CHAR_UUID     = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
+	private const string CMD_DESC_UUID     = "00002902-0000-1000-8000-00805f9b34fb";
 	
 	private const uint8[] COMMAND_START = { 0x55 };
 	private const uint8[] COMMAND_END   = { 0xAA };
-	private const uint8[] AUTH_KEY	  = { 0xB5, 0x4C, 0x75, 0xB1, 0xB4, 0x0C, 0x88, 0xEF }; // maybe random
+	private const uint8[] AUTH_KEY      = { 0xB5, 0x4C, 0x75, 0xB1, 0xB4, 0x0C, 0x88, 0xEF }; // maybe random
 	
 	private enum Command
 	{

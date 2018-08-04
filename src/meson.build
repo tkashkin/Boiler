@@ -32,10 +32,44 @@ if get_option('use_ivy')
 	add_global_arguments('-g', '-X', '-rdynamic', '-D', 'USE_IVY', language: 'vala')
 endif
 
+shared_sources = [
+	project_config,
+
+	icons_gresource,
+	css_gresource,
+	
+	'utils/Settings.vala',
+	'utils/Converter.vala',
+
+	'bluetooth/Bluez.vala',
+
+	'devices/Devices.vala',
+	'devices/abstract/BTKettle.vala',
+	'devices/kettle/redmond/RK_G2XX.vala'
+]
+
+wingpanel = dependency('wingpanel-2.0')
+if get_option('wingpanel_indicator') and wingpanel.found()
+	shared_module(
+		meson.project_name(),
+		'ui/indicators/wingpanel/BoilerIndicator.vala',
+		'ui/indicators/wingpanel/widgets/DisplayWidget.vala',
+		shared_sources,
+		dependencies: [
+			dependency('glib-2.0'),
+			dependency('gobject-2.0'),
+			dependency('granite'),
+			dependency('gtk+-3.0'),
+			wingpanel
+		],
+		install: true,
+		install_dir : wingpanel.get_pkgconfig_variable('indicatorsdir')
+	)
+endif
+
 executable(
 	meson.project_name(),
-	project_config,
-	
+
 	'app.vala',
 	
 	'ui/windows/MainWindow.vala',
@@ -45,22 +79,14 @@ executable(
 	'ui/views/connect/ConnectView.vala',
 	'ui/views/connect/DeviceRow.vala',
 	
-	'utils/Settings.vala',
-	'utils/Converter.vala',
-	
-	'bluetooth/Bluez.vala',
-	
-	'devices/Devices.vala',
-	'devices/abstract/BTKettle.vala',
-	'devices/kettle/redmond/RK_G2XX.vala',
+	'ui/views/kettle/KettleView.vala',
 
 	'lib/ivy/Extractor.vala',
 	'lib/ivy/Frame.vala',
 	'lib/ivy/Printer.vala',
 	'lib/ivy/Stacktrace.vala',
 
-	icons_gresource,
-	css_gresource,
+	shared_sources,
 
 	dependencies: deps,
 	install: true

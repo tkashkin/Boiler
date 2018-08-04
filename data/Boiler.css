@@ -1,4 +1,45 @@
+@define-color boiler_hot #da7400;
+
 .devices-list
 {
 	background: transparent;
+}
+
+label.small
+{
+	font-size: 7pt;
+}
+
+.kettle
+{
+	transition: 100ms;
+}
+
+.boil-button
+{
+	border-color: @boiler_hot;
+	border-radius: 50%;
+	background-color: alpha(white, 0.25);
+	transition: 100ms;
+}
+.boil-button:hover
+{
+	background-color: alpha(white, 0.35);
+}
+.boil-button:active
+{
+	background-color: alpha(white, 0.5);
+}
+
+.boil-button:checked
+{
+	background-color: alpha(black, 0.1);
+}
+.boil-button:checked:hover
+{
+	background-color: alpha(black, 0.2);
+}
+.boil-button:checked:active
+{
+	background-color: alpha(black, 0.4);
 }

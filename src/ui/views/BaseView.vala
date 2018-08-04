@@ -10,7 +10,7 @@ namespace Boiler.UI.Views
 		
 		construct
 		{
-		    
+
 		}
 		
 		public virtual void attach_to_window(MainWindow wnd)

@@ -69,6 +69,7 @@ namespace Boiler.UI.Windows
 		
 		public void add_view(BaseView view, bool show=true)
 		{
+			if(current_view != null) current_view.hide();
 			view.attach_to_window(this);
 			stack.add(view);
 			if(show)
@@ -81,7 +82,7 @@ namespace Boiler.UI.Windows
 		
 		private void stack_updated()
 		{
-			current_view.on_show();
+			if(current_view != null) current_view.on_show();
 		}
 		
 		private void restore_saved_state()
