@@ -17,8 +17,11 @@ namespace Boiler.UI.Views.Kettle
 		private Label temp_label;
 		private Label boil_label;
 
-		private Label address_label;
+		private Label title_label;
+		private Label description_label;
 		private Spinner spinner;
+
+		private InfoBar pairing_info;
 
 		private CssProvider? temp_style = new CssProvider();
 		private CssProvider? btn_temp_style = new CssProvider();
@@ -32,14 +35,14 @@ namespace Boiler.UI.Views.Kettle
 
 		construct
 		{
-			var title_label = new Label(kettle.bt_device.name);
+			title_label = new Label(kettle.name);
 			title_label.get_style_context().add_class(Granite.STYLE_CLASS_PRIMARY_LABEL);
 			title_label.hexpand = true;
 
-			address_label = new Label(kettle.bt_device.address);
-			address_label.get_style_context().add_class(Gtk.STYLE_CLASS_DIM_LABEL);
-			address_label.get_style_context().add_class("small");
-			address_label.hexpand = true;
+			description_label = new Label(kettle.description);
+			description_label.get_style_context().add_class(Gtk.STYLE_CLASS_DIM_LABEL);
+			description_label.get_style_context().add_class("small");
+			description_label.hexpand = true;
 
 			temp_label = new Label("");
 			boil_label = new Label("");
@@ -71,16 +74,44 @@ namespace Boiler.UI.Views.Kettle
 			spinner.set_size_request(16, 16);
 			spinner.halign = Align.END;
 
-			attach(title_label, 0, 0, 3, 1);
-			attach(address_label, 0, 1, 3, 1);
-			attach(image, 0, 0, 1, 2);
-			attach(spinner, 2, 0, 1, 2);
-			attach(boil_btn, 1, 2, 1, 1);
+			if(kettle.pairing_info != null)
+			{
+				pairing_info = new InfoBar();
+				pairing_info.show_close_button = false;
+				pairing_info.margin_bottom = 4;
+				pairing_info.message_type = MessageType.WARNING;
+				pairing_info.get_content_area().add(new Label(kettle.pairing_info));
+
+				#if GTK_3_22
+				pairing_info.revealed = false;
+				#else
+				pairing_info.visible = false;
+				#endif
+
+				kettle.notify["is-paired"].connect(() => {
+					#if GTK_3_22
+					pairing_info.revealed = !kettle.is_paired;
+					#else
+					pairing_info.visible = !kettle.is_paired;
+					#endif
+				});
+
+				attach(pairing_info, 0, 0, 3, 1);
+			}
+
+			attach(title_label, 0, 1, 3, 1);
+			attach(description_label, 0, 2, 3, 1);
+			attach(image, 0, 1, 1, 2);
+			attach(spinner, 2, 1, 1, 2);
+			attach(boil_btn, 1, 3, 1, 1);
+
+			kettle.notify["name"].connect(update);
+			kettle.notify["description"].connect(update);
+			kettle.notify["status"].connect(update);
 
 			kettle.notify["is-connected"].connect(update);
 			kettle.notify["temperature"].connect(update);
 			kettle.notify["is-boiling"].connect(update);
-			kettle.notify["status"].connect(update);
 
 			update();
 
@@ -108,14 +139,17 @@ namespace Boiler.UI.Views.Kettle
 
 				lock(kettle)
 				{
-					boil_btn.sensitive = kettle.is_connected;
-					spinner.active = !kettle.is_connected;
+					boil_btn.sensitive = kettle.is_connected && kettle.is_paired;
+					spinner.active = !kettle.is_connected || !kettle.is_paired;
 					spinner.queue_draw();
 
 					boil_btn.active = kettle.is_connected && kettle.is_boiling;
 					temp_label.label = kettle.temperature > 0 ? @"$(kettle.temperature) \u2103" : "";
 					boil_label.label = kettle.is_boiling ? _("Disable") : _("Enable");
-					address_label.tooltip_text = kettle.status;
+
+					title_label.label = kettle.name;
+					description_label.label = kettle.description;
+					description_label.tooltip_text = kettle.status;
 
 					if(window == null || window.get_toplevel() == null)
 					{

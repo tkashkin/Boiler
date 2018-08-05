@@ -23,4 +23,44 @@ namespace Boiler.Settings
 			return instance;
 		}
 	}
+
+	public class Devices: Granite.Services.Settings
+	{
+		public string last_device { get; set; }
+
+		public Devices()
+		{
+			base(ProjectConfig.PROJECT_NAME + ".devices");
+		}
+
+		private static Devices? instance;
+		public static unowned Devices get_instance()
+		{
+			if(instance == null)
+			{
+				instance = new Devices();
+			}
+			return instance;
+		}
+	}
+
+	public class Dev.Redmond.RK_G2XX: Granite.Services.Settings
+	{
+		public string auth_key { get; set; }
+
+		public RK_G2XX()
+		{
+			base(ProjectConfig.PROJECT_NAME + ".dev.redmond.rk-g2xx");
+		}
+
+		private static RK_G2XX? instance;
+		public static unowned RK_G2XX get_instance()
+		{
+			if(instance == null)
+			{
+				instance = new RK_G2XX();
+			}
+			return instance;
+		}
+	}
 }

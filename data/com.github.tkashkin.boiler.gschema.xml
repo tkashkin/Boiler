@@ -8,4 +8,16 @@
 			<default>-1</default>
 		</key>
 	</schema>
+
+	<schema path="/com/github/tkashkin/boiler/devices/" id="com.github.tkashkin.boiler.devices" gettext-domain="com.github.tkashkin.boiler">
+		<key name="last-device" type="s">
+			<default>''</default>
+		</key>
+	</schema>
+
+	<schema path="/com/github/tkashkin/boiler/dev/redmond/rk-g2xx/" id="com.github.tkashkin.boiler.dev.redmond.rk-g2xx" gettext-domain="com.github.tkashkin.boiler">
+		<key name="auth-key" type="s">
+			<default>''</default>
+		</key>
+	</schema>
 </schemalist>

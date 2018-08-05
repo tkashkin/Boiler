@@ -39,6 +39,13 @@ namespace Boiler
 			Intl.bindtextdomain(ProjectConfig.GETTEXT_PACKAGE, ProjectConfig.GETTEXT_DIR);
 			Intl.textdomain(ProjectConfig.GETTEXT_PACKAGE);
 
+			var rk_g2xx_auth = Settings.Dev.Redmond.RK_G2XX.get_instance();
+			if(rk_g2xx_auth.auth_key == "")
+			{
+				var bytes = Utils.random_bytes(8);
+				rk_g2xx_auth.auth_key = Converter.bin_to_hex(bytes, ' ');
+			}
+
 			return app.run(args);
 		}
 	}

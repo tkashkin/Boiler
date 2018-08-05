@@ -6,8 +6,13 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 {
 	public const string[] DEVICES = { "RK-G200S", "RK-G210S", "RK-G211S" };
 	
+	private uint8[] auth_key = DEFAULT_AUTH_KEY;
+
 	private bool is_authenticated = false;
+
+	private bool auth_thread_running = false;
 	private bool status_thread_running = false;
+
 	private uint8 counter = 0;
 	
 	private HashTable<string, Variant> _params = new HashTable<string, Variant>(str_hash, null);
@@ -19,6 +24,20 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		Object(bt_device: device, btmgr: btmgr);
 		
+		name = bt_device.name;
+		description = bt_device.address;
+		pairing_info = _("Your PC is not paired to the kettle.\nHold kettle power button for 5 seconds");
+
+		var key = Boiler.Settings.Dev.Redmond.RK_G2XX.get_instance().auth_key;
+
+		if(key != "")
+		{
+			if(!Converter.hex_to_bin(key, out auth_key, ' '))
+			{
+				auth_key = DEFAULT_AUTH_KEY;
+			}
+		}
+
 		bt_connect();
 	}
 
@@ -143,23 +162,35 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		log("Authenticating...");
 		
-		while(true)
-		{
-			if(!is_connected) return;
+		if(auth_thread_running) return;
+		new Thread<void*>("RK-G2XX-auth-thread", () => {
+			while(true)
+			{
+				auth_thread_running = true;
+				if(!is_connected) break;
 
-			var res = send_command(Command.AUTH, AUTH_KEY);
-			if(res.length < 4 || res[3] == 0)
-			{
-				log("Authentication failed, retrying...");
+				var res = send_command(Command.AUTH, auth_key);
+				if(res.length < 4 || res[3] == 0)
+				{
+					log("Authentication failed, retrying...");
+					is_paired = false;
+					Thread.usleep(1000000);
+				}
+				else
+				{
+					log("Authentication succeeded");
+					is_authenticated = true;
+					is_paired = true;
+					description = @"$(bt_device.address) (fw $(get_fw_version()))";
+					start_status_thread();
+					break;
+				}
 			}
-			else
-			{
-				log("Authentication succeeded");
-				is_authenticated = true;
-				start_status_thread();
-				break;
-			}
-		}
+
+			auth_thread_running = false;
+
+			return null;
+		});
 	}
 	
 	public override void start_boiling()
@@ -177,6 +208,13 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 		is_boiling = false;
 	}
 	
+	private string get_fw_version()
+	{
+		log("Getting firmware version...");
+		var res = send_command(Command.FW_VERSION, {});
+		return @"$(res[3]).$(res[4])";
+	}
+
 	private void start_status_thread()
 	{
 		if(status_thread_running) return;
@@ -213,13 +251,13 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	private const string RES_CHAR_UUID     = "6e400003-b5a3-f393-e0a9-e50e24dcca9e";
 	private const string CMD_DESC_UUID     = "00002902-0000-1000-8000-00805f9b34fb";
 	
-	private const uint8[] COMMAND_START = { 0x55 };
-	private const uint8[] COMMAND_END   = { 0xAA };
-	private const uint8[] AUTH_KEY      = { 0xB5, 0x4C, 0x75, 0xB1, 0xB4, 0x0C, 0x88, 0xEF }; // maybe random
+	private const uint8[] COMMAND_START    = { 0x55 };
+	private const uint8[] COMMAND_END      = { 0xAA };
+	private const uint8[] DEFAULT_AUTH_KEY = { 0xB5, 0x4C, 0x75, 0xB1, 0xB4, 0x0C, 0x88, 0xEF };
 	
 	private enum Command
 	{
-		AUTH, STATUS, START_BOILING, STOP_BOILING;
+		AUTH, STATUS, START_BOILING, STOP_BOILING, FW_VERSION;
 		
 		public uint8 byte()
 		{
@@ -229,6 +267,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 				case Command.STATUS:        return 0x06;
 				case Command.START_BOILING: return 0x03;
 				case Command.STOP_BOILING:  return 0x04;
+				case Command.FW_VERSION:    return 0x01;
 			}
 			return 0x00;
 		}

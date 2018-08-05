@@ -38,6 +38,7 @@ shared_sources = [
 	icons_gresource,
 	css_gresource,
 	
+	'utils/Utils.vala',
 	'utils/Settings.vala',
 	'utils/Converter.vala',
 

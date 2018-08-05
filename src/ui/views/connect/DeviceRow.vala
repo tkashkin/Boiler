@@ -37,11 +37,25 @@ class Boiler.UI.Views.Connect.DeviceRow: Gtk.ListBoxRow
 		{
 			var connect_btn = new Button.with_label(_("Connect"));
 			
+			var settings = Boiler.Settings.Devices.get_instance();
+
 			connect_btn.clicked.connect(() => {
 				kettle = Devices.connect(device);
-				if(kettle != null) connected(kettle);
+				if(kettle != null)
+				{
+					settings.last_device = device.address;
+					connected(kettle);
+				}
 			});
 			
+			if(settings.last_device == device.address)
+			{
+				Idle.add(() => {
+					connect_btn.clicked();
+					return Source.REMOVE;
+				});
+			}
+
 			hbox.add(connect_btn);
 		}
 
