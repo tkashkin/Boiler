@@ -56,7 +56,7 @@ namespace Boiler
 			var rk_g2xx_auth = Settings.Dev.Redmond.RK_G2XX.get_instance();
 			if(rk_g2xx_auth.auth_key == "")
 			{
-				var bytes = Utils.random_bytes(8);
+				var bytes = Boiler.Devices.Kettle.Redmond.RK_G2XX.generate_auth_key();
 				rk_g2xx_auth.auth_key = Converter.bin_to_hex(bytes, ' ');
 			}
 

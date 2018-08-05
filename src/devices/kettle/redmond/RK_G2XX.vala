@@ -258,6 +258,11 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	private const uint8[] COMMAND_END      = { 0xAA };
 	private const uint8[] DEFAULT_AUTH_KEY = { 0xB5, 0x4C, 0x75, 0xB1, 0xB4, 0x0C, 0x88, 0xEF };
 	
+	public static uint8[] generate_auth_key()
+	{
+		return Boiler.Utils.random_bytes(8, { COMMAND_START[0], COMMAND_END[0] });
+	}
+
 	private enum Command
 	{
 		AUTH, STATUS, START_BOILING, STOP_BOILING, FW_VERSION;
