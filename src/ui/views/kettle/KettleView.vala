@@ -25,8 +25,13 @@ namespace Boiler.UI.Views.Kettle
 
 		private CssProvider? temp_style = new CssProvider();
 		private CssProvider? btn_temp_style = new CssProvider();
+
 		private bool updating = false;
 		private int old_temp = -1;
+
+		#if WITH_UNITY_API
+		private Unity.LauncherEntry launcher_entry = Unity.LauncherEntry.get_for_desktop_id(ProjectConfig.PROJECT_NAME + ".desktop");
+		#endif
 
 		public KettleView(BTKettle kettle)
 		{
@@ -48,7 +53,7 @@ namespace Boiler.UI.Views.Kettle
 			boil_label = new Label("");
 			boil_label.get_style_context().add_class(Gtk.STYLE_CLASS_DIM_LABEL);
 
-			var btn_content = new Box(Orientation.VERTICAL, 4);
+			var btn_content = new Box(Orientation.VERTICAL, 0);
 			btn_content.valign = btn_content.halign = Align.CENTER;
 			btn_content.add(temp_label);
 			btn_content.add(new Image.from_icon_name("system-shutdown-symbolic", IconSize.DND));
@@ -128,7 +133,16 @@ namespace Boiler.UI.Views.Kettle
 				}
 			});
 
+			Boiler.Application.instance.toggle_kettle.connect(toggle_kettle);
+
 			show_all();
+		}
+
+		private void toggle_kettle()
+		{
+			boil_btn.active = !boil_btn.active;
+			boil_btn.toggled();
+			Boiler.Application.instance.kettle_toggle_pending = false;
 		}
 
 		private void update()
@@ -150,6 +164,14 @@ namespace Boiler.UI.Views.Kettle
 					title_label.label = kettle.name;
 					description_label.label = kettle.description;
 					description_label.tooltip_text = kettle.status;
+
+					if(kettle.is_connected && kettle.is_paired && Boiler.Application.instance.kettle_toggle_pending)
+					{
+						Timeout.add(100, () => {
+							if(Boiler.Application.instance.kettle_toggle_pending) toggle_kettle();
+							return Source.REMOVE;
+						});
+					}
 
 					if(window == null || window.get_toplevel() == null)
 					{
@@ -174,6 +196,14 @@ namespace Boiler.UI.Views.Kettle
 						btn_temp_style.load_from_data(btn_css);
 					}
 					old_temp = kettle.temperature;
+
+					#if WITH_UNITY_API
+					launcher_entry.count_visible = kettle.temperature > 30;
+					launcher_entry.count = kettle.temperature;
+					launcher_entry.progress_visible = kettle.is_boiling;
+					launcher_entry.progress = (float) kettle.temperature / 100;
+					launcher_entry.urgent = kettle.temperature > 95;
+					#endif
 
 					window.get_toplevel().queue_draw();
 					boil_btn.queue_draw();

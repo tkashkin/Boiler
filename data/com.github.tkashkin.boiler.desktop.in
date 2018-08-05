@@ -9,3 +9,9 @@ X-GNOME-Gettext-Domain=com.github.tkashkin.boiler
 Icon=com.github.tkashkin.boiler
 Terminal=false
 Type=Application
+Actions=Toggle;
+
+[Desktop Action Toggle]
+Name=Enable/Disable
+Exec=com.github.tkashkin.boiler --toggle
+Icon=system-shutdown-symbolic

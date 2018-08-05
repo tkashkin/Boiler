@@ -134,27 +134,30 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		if(!is_connected || cmd_char == null || res_char == null) return {};
 
-		var cmd_index = counter++;
-		
-		try
+		lock(counter)
 		{
-			var bytes = command.bytes(cmd_index, args);
-			log("-> %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(bytes, ' ')));
-			cmd_char.write_value(bytes, _params);
+			var cmd_index = counter++;
 			
-			if(!is_connected || cmd_char == null || res_char == null) return {};
+			try
+			{
+				var bytes = command.bytes(cmd_index, args);
+				log("-> %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(bytes, ' ')));
+				cmd_char.write_value(bytes, _params);
 
-			var response = res_char.read_value(_params);
-			log("<- %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(response, ' ')));
-			return response;
-		}
-		catch(Error e)
-		{
-			warning(e.message);
-			is_authenticated = is_connected = false;
-			cmd_char = res_char = null;
-			reconnect();
-			return {};
+				if(!is_connected || cmd_char == null || res_char == null) return {};
+
+				var response = res_char.read_value(_params);
+				log("<- %s(%u): %s".printf(command.name(), cmd_index, Converter.bin_to_hex(response, ' ')));
+				return response;
+			}
+			catch(Error e)
+			{
+				warning(e.message);
+				is_authenticated = is_connected = false;
+				cmd_char = res_char = null;
+				reconnect();
+				return {};
+			}
 		}
 	}
 	

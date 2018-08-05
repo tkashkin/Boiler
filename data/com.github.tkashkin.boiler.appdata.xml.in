@@ -9,7 +9,18 @@
 	<summary>Control your kettle remotely</summary>
 	
 	<description>
-		<p>Simple app to control Redmond Skykettle RK-G200S.</p>
+		<p>Simple app to control smart kettles using bluetooth.</p>
+		<p>Supported devices:</p>
+		<ul>
+			<li>
+				Redmond
+				<ul>
+					<li>RK-G200S, RK-G210S, RK-G211S (tested)</li>
+					<li>other 2nd-gen devices (RK-G2xx) (not tested)</li>
+				</ul>
+			</li>
+		</ul>
+		<p>Note: Bluetooth 4.0 adapter with BLE support required.</p>
 	</description>
 	
 	<developer_name>Anatoliy Kashkin</developer_name>
@@ -29,7 +40,7 @@
 	</screenshots>
 	
 	<releases>
-		<release type="development" version="0.1.0" date="2018-07-30">
+		<release type="development" version="0.1.0" date="2018-08-05">
 			<description>
 				<p>Initial release.</p>
 			</description>

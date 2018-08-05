@@ -14,4 +14,4 @@ Standards-Version: 4.1.4
 Package: com.github.tkashkin.boiler
 Architecture: any
 Depends: ${misc:Depends}, ${shlibs:Depends}, bluez
-Description: Simple app to control Redmond Skykettle RK-G200S
+Description: Simple app to control smart kettles using bluetooth

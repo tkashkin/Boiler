@@ -6,6 +6,11 @@ Simple app to control Redmond Skykettle RK-G200S/RK-G210S/RK-G211S (and probably
   - RK-G200S, RK-G210S, RK-G211S (tested)
   - other 2nd-gen devices (RK-G2xx) (not tested)
 
+## Runtime dependencies
+* bluez
+
+Note: Bluetooth 4.0 adapter with BLE support required.
+
 ## Installation
 Prebuilt releases can be found on [releases page](https://github.com/tkashkin/Boiler/releases).
 

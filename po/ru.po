@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tkashkin.boiler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-05 03:29+0300\n"
+"POT-Creation-Date: 2018-08-05 21:35+0300\n"
 "PO-Revision-Date: 2018-07-30 10:26+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,6 +17,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:8
+#: data/com.github.tkashkin.boiler.desktop.in:3
+#: data/com.github.tkashkin.boiler.desktop.in:4
+#: src/ui/windows/MainWindow.vala:24
+msgid "Boiler"
+msgstr ""
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:9
+#: data/com.github.tkashkin.boiler.desktop.in:5
+msgid "Control your kettle remotely"
+msgstr "Удалённое управление чайником"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:12
+msgid "Simple app to control smart kettles using bluetooth."
+msgstr "Простое приложение для управления чайниками через bluetooth"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:13
+msgid "Supported devices:"
+msgstr "Поддерживаемые устройства:"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:18
+msgid "RK-G200S, RK-G210S, RK-G211S (tested)"
+msgstr "RK-G200S, RK-G210S, RK-G211S (проверено)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:19
+msgid "other 2nd-gen devices (RK-G2xx) (not tested)"
+msgstr "другие устройства второго поколения (RK-G2xx) (не проверено)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:23
+msgid "Note: Bluetooth 4.0 adapter with BLE support required."
+msgstr "Примечание: Необходим адаптер Bluetooth 4.0 с поддержкой BLE."
+
+#: data/com.github.tkashkin.boiler.desktop.in:7
+msgid "Kettle;Teapot;Redmond;Remote;Control;"
+msgstr "Kettle;Teapot;Redmond;Remote;Control;Чайник;Удалённое;Управление;"
+
+#: data/com.github.tkashkin.boiler.desktop.in:16
+msgid "Enable/Disable"
+msgstr "Включить/Выключить"
 
 #: src/ui/views/connect/ConnectView.vala:32
 msgid "No devices"
@@ -30,10 +70,10 @@ msgstr "Убедитесь, что устройства находятся в р
 msgid "Connect"
 msgstr "Подключить"
 
-#: src/ui/views/kettle/KettleView.vala:117
+#: src/ui/views/kettle/KettleView.vala:162
 msgid "Disable"
 msgstr "Выключить"
 
-#: src/ui/views/kettle/KettleView.vala:117
+#: src/ui/views/kettle/KettleView.vala:162
 msgid "Enable"
 msgstr "Включить"

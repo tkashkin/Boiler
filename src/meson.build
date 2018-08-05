@@ -32,6 +32,12 @@ if get_option('use_ivy')
 	add_global_arguments('-g', '-X', '-rdynamic', '-D', 'USE_IVY', language: 'vala')
 endif
 
+unity = dependency('unity', required: false)
+if unity.found()
+	add_global_arguments('-D', 'WITH_UNITY_API', language: 'vala')
+	deps += unity
+endif
+
 shared_sources = [
 	project_config,
 
@@ -49,7 +55,7 @@ shared_sources = [
 	'devices/kettle/redmond/RK_G2XX.vala'
 ]
 
-wingpanel = dependency('wingpanel-2.0')
+wingpanel = dependency('wingpanel-2.0', required: false)
 if get_option('wingpanel_indicator') and wingpanel.found()
 	shared_module(
 		meson.project_name(),
@@ -58,7 +64,6 @@ if get_option('wingpanel_indicator') and wingpanel.found()
 		shared_sources,
 		dependencies: [
 			dependency('glib-2.0'),
-			dependency('gobject-2.0'),
 			dependency('granite'),
 			dependency('gtk+-3.0'),
 			wingpanel
@@ -71,7 +76,7 @@ endif
 executable(
 	meson.project_name(),
 
-	'app.vala',
+	'Application.vala',
 	
 	'ui/windows/MainWindow.vala',
 	
