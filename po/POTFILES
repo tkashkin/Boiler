@@ -4,4 +4,11 @@ data/com.github.tkashkin.boiler.gschema.xml
 
 src/app.vala
 
+src/ui/windows/MainWindow.vala
 
+src/ui/views/BaseView.vala
+
+src/ui/views/connect/ConnectView.vala
+src/ui/views/connect/DeviceRow.vala
+
+src/ui/views/kettle/KettleView.vala

@@ -4,7 +4,7 @@ using Boiler.Bluetooth;
 
 public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKettle
 {
-	public const string[] DEVICES = { "RK-G200S", "RK-G211S" };
+	public const string[] DEVICES = { "RK-G200S", "RK-G210S", "RK-G211S" };
 	
 	private bool is_authenticated = false;
 	private bool status_thread_running = false;
@@ -19,10 +19,10 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	{
 		Object(bt_device: device, btmgr: btmgr);
 		
-		connect();
+		bt_connect();
 	}
 
-	private void connect()
+	private void bt_connect()
 	{
 		if(is_connected) return;
 		
@@ -66,7 +66,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 		new Thread<void*>("RK-G2XX-reconnect-thread", () => {
 			while(true)
 			{
-				connect();
+				bt_connect();
 				Thread.usleep(5000000);
 				if(is_connected) break;
 			}

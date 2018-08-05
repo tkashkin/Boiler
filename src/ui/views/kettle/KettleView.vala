@@ -114,7 +114,7 @@ namespace Boiler.UI.Views.Kettle
 
 					boil_btn.active = kettle.is_connected && kettle.is_boiling;
 					temp_label.label = kettle.temperature > 0 ? @"$(kettle.temperature) \u2103" : "";
-					boil_label.label = kettle.is_boiling ? "Stop" : "Start";
+					boil_label.label = kettle.is_boiling ? _("Disable") : _("Enable");
 					address_label.tooltip_text = kettle.status;
 
 					if(window == null || window.get_toplevel() == null)

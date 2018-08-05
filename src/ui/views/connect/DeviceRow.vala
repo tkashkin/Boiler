@@ -35,7 +35,7 @@ class Boiler.UI.Views.Connect.DeviceRow: Gtk.ListBoxRow
 		
 		if(device.name in Devices.SUPPORTED)
 		{
-			var connect_btn = new Button.with_label("Connect");
+			var connect_btn = new Button.with_label(_("Connect"));
 			
 			connect_btn.clicked.connect(() => {
 				kettle = Devices.connect(device);

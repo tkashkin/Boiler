@@ -29,7 +29,7 @@ namespace Boiler.UI.Views.Connect
 
 			devices_grid = new Grid();
 			devices_grid.valign = Align.CENTER;
-			empty_view = new AlertView("No devices", "Make sure devices are in bluetooth range", "bluetooth");
+			empty_view = new AlertView(_("No devices"), _("Make sure devices are in bluetooth range"), "bluetooth");
 			empty_view.get_style_context().remove_class(Gtk.STYLE_CLASS_VIEW);
 			empty_view.get_children().data.margin = 0;
 
@@ -105,7 +105,11 @@ namespace Boiler.UI.Views.Connect
 
 		private void update_view()
 		{
-			stack.visible_child = devices_list.get_children().length() > 0 ? devices_grid : empty_view;
+			var view = devices_list.get_children().length() > 0 ? devices_grid : empty_view;
+			devices_grid.hide();
+			empty_view.hide();
+			stack.visible_child = view;
+			view.show();
 		}
 
 		private void kettle_connected(BTKettle kettle)

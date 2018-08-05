@@ -4,8 +4,8 @@ using Boiler.Bluetooth;
 
 namespace Boiler.Devices
 {
-	public const string[] SUPPORTED = { "RK-G200S", "RK-G211S" };
-	public const string[] WITH_ICONS = { "RK-G200S" };
+	public const string[] SUPPORTED = { "RK-G200S", "RK-G210S", "RK-G211S" };
+	public const string[] WITH_ICONS = { "RK-G200S", "RK-G210S", "RK-G211S" };
 	
 	public static Boiler.Devices.Abstract.BTKettle? connect(Bluez.Device device)
 	{

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tkashkin.boiler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-07-30 10:26+0300\n"
+"POT-Creation-Date: 2018-08-05 03:29+0300\n"
 "PO-Revision-Date: 2018-07-30 10:26+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,29 +18,22 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: data/com.github.tkashkin.boiler.appdata.xml.in:8
-#: data/com.github.tkashkin.boiler.desktop.in:3
-#: data/com.github.tkashkin.boiler.desktop.in:4
-msgid "Boiler"
-msgstr ""
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "No devices"
+msgstr "Нет устройств"
 
-#: data/com.github.tkashkin.boiler.appdata.xml.in:9
-#: data/com.github.tkashkin.boiler.desktop.in:5
-msgid "Control your kettle remotely"
-msgstr ""
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "Make sure devices are in bluetooth range"
+msgstr "Убедитесь, что устройства находятся в радиусе действия bluetooth"
 
-#: data/com.github.tkashkin.boiler.appdata.xml.in:12
-msgid "Simple app to control Redmond Skykettle RK-G200S."
-msgstr ""
+#: src/ui/views/connect/DeviceRow.vala:38
+msgid "Connect"
+msgstr "Подключить"
 
-#: data/com.github.tkashkin.boiler.appdata.xml.in:15
-msgid "Anatoliy Kashkin"
-msgstr ""
+#: src/ui/views/kettle/KettleView.vala:117
+msgid "Disable"
+msgstr "Выключить"
 
-#: data/com.github.tkashkin.boiler.desktop.in:7
-msgid "Kettle;Teapot;Redmond;Remote;Control;"
-msgstr ""
-
-#: data/com.github.tkashkin.boiler.desktop.in:10
-msgid "com.github.tkashkin.boiler"
-msgstr ""
+#: src/ui/views/kettle/KettleView.vala:117
+msgid "Enable"
+msgstr "Включить"
