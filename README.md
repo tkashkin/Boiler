@@ -1,8 +1,10 @@
 # Boiler
-Simple app to control Redmond Skykettle RK-G200S (and probably similar devices)
+Simple app to control Redmond Skykettle RK-G200S/RK-G210S/RK-G211S (and probably similar devices)
 
 ## Supported devices:
-* Redmond Skykettle RK-G200S
+* Redmond Skykettle
+  - RK-G200S, RK-G210S, RK-G211S (tested)
+  - other 2nd-gen devices (RK-G2xx) (not tested)
 
 ## Installation
 Prebuilt releases can be found on [releases page](https://github.com/tkashkin/Boiler/releases).
@@ -35,3 +37,6 @@ cd build
 ninja
 sudo ninja install
 ```
+
+## Screenshots
+<p align="center"><img src="data/screenshots/connect.png?raw=true" /><img src="data/screenshots/kettle_31.png?raw=true" width="49%" /><img src="data/screenshots/kettle_60.png?raw=true" width="49%" /> <img src="data/screenshots/kettle_90.png?raw=true" width="49%" /><img src="data/screenshots/kettle_100.png?raw=true" width="49%" /></p>
