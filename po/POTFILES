@@ -12,3 +12,5 @@ src/ui/views/connect/ConnectView.vala
 src/ui/views/connect/DeviceRow.vala
 
 src/ui/views/kettle/KettleView.vala
+
+src/devices/kettle/redmond/RK_G2XX.vala

@@ -35,11 +35,28 @@
 	
 	<screenshots>
 		<screenshot type="default">
-			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/1.png</image>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/connect.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_31.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_60.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_90.png</image>
+		</screenshot>
+		<screenshot>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_100.png</image>
 		</screenshot>
 	</screenshots>
 	
 	<releases>
+		<release type="development" version="0.1.1" date="2018-08-06">
+			<description>
+				<p>Updated appdata. Fixed untranslatable string.</p>
+			</description>
+		</release>
 		<release type="development" version="0.1.0" date="2018-08-05">
 			<description>
 				<p>Initial release.</p>

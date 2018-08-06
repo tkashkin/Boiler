@@ -1,3 +1,9 @@
+com.github.tkashkin.boiler (0.1.1) xenial; urgency=low
+
+  * Updated appdata. Fixed untranslatable string
+
+ -- tkashkin <tkashkin@gmail.com>  Mon, 06 Aug 2018 19:57:11 +0300
+
 com.github.tkashkin.boiler (0.1.0) xenial; urgency=low
 
   * Initial release
