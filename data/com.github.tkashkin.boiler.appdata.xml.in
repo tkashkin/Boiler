@@ -12,13 +12,8 @@
 		<p>Simple app to control smart kettles using bluetooth.</p>
 		<p>Supported devices:</p>
 		<ul>
-			<li>
-				Redmond
-				<ul>
-					<li>RK-G200S, RK-G210S, RK-G211S (tested)</li>
-					<li>other 2nd-gen devices (RK-G2xx) (not tested)</li>
-				</ul>
-			</li>
+			<li>Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (tested)</li>
+			<li>other Redmond Skykettle 2nd-gen devices (RK-G2xx) (not tested)</li>
 		</ul>
 		<p>Note: Bluetooth 4.0 adapter with BLE support required.</p>
 	</description>
@@ -38,13 +33,13 @@
 			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/connect.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_31.png</image>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_not_paired.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_60.png</image>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_64.png</image>
 		</screenshot>
 		<screenshot>
-			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_90.png</image>
+			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_80.png</image>
 		</screenshot>
 		<screenshot>
 			<image>https://raw.githubusercontent.com/tkashkin/Boiler/master/data/screenshots/kettle_100.png</image>
@@ -52,6 +47,11 @@
 	</screenshots>
 	
 	<releases>
+		<release type="development" version="0.1.2" date="2018-08-07">
+			<description>
+				<p>Updated appdata.</p>
+			</description>
+		</release>
 		<release type="development" version="0.1.1" date="2018-08-06">
 			<description>
 				<p>Updated appdata. Fixed untranslatable string.</p>
@@ -64,6 +64,11 @@
 		</release>
 	</releases>
 	
+	<custom>
+		<value key="x-appcenter-color-primary">#ff8800</value>
+		<value key="x-appcenter-color-primary-text">#000000</value>
+	</custom>
+
 	<content_rating type="oars-1.1">
 		<content_attribute id="violence-cartoon">none</content_attribute>
 		<content_attribute id="violence-fantasy">none</content_attribute>

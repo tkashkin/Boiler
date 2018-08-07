@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.github.tkashkin.boiler\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-06 19:51+0300\n"
+"POT-Creation-Date: 2018-08-07 22:39+0300\n"
 "PO-Revision-Date: 2018-07-30 10:26+0300\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -38,15 +38,15 @@ msgstr "Простое приложение для управления чайн
 msgid "Supported devices:"
 msgstr "Поддерживаемые устройства:"
 
+#: data/com.github.tkashkin.boiler.appdata.xml.in:15
+msgid "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (tested)"
+msgstr "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (проверено)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:16
+msgid "other Redmond Skykettle 2nd-gen devices (RK-G2xx) (not tested)"
+msgstr "другие устройства Redmond Skykettle второго поколения (RK-G2xx) (не проверено)"
+
 #: data/com.github.tkashkin.boiler.appdata.xml.in:18
-msgid "RK-G200S, RK-G210S, RK-G211S (tested)"
-msgstr "RK-G200S, RK-G210S, RK-G211S (проверено)"
-
-#: data/com.github.tkashkin.boiler.appdata.xml.in:19
-msgid "other 2nd-gen devices (RK-G2xx) (not tested)"
-msgstr "другие устройства второго поколения (RK-G2xx) (не проверено)"
-
-#: data/com.github.tkashkin.boiler.appdata.xml.in:23
 msgid "Note: Bluetooth 4.0 adapter with BLE support required."
 msgstr "Примечание: Необходим адаптер Bluetooth 4.0 с поддержкой BLE."
 

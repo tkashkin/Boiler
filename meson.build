@@ -1,4 +1,4 @@
-project('com.github.tkashkin.boiler', 'vala', 'c', version: '0.1.1')
+project('com.github.tkashkin.boiler', 'vala', 'c', version: '0.1.2')
 
 i18n = import('i18n')
 gnome = import('gnome')
