@@ -78,6 +78,7 @@ namespace Boiler.UI.Views.Kettle
 			spinner.margin = 8;
 			spinner.set_size_request(16, 16);
 			spinner.halign = Align.END;
+			spinner.active = true;
 
 			if(kettle.pairing_info != null)
 			{
@@ -121,6 +122,7 @@ namespace Boiler.UI.Views.Kettle
 			update();
 
 			boil_btn.toggled.connect(() => {
+				if(!kettle.is_connected || !kettle.is_paired) return;
 				spinner.active = true;
 				boil_btn.sensitive = false;
 				if(boil_btn.active && !kettle.is_boiling)
@@ -136,13 +138,29 @@ namespace Boiler.UI.Views.Kettle
 			Boiler.Application.instance.toggle_kettle.connect(toggle_kettle);
 
 			show_all();
+
+			kettle.connect_async.begin((obj, res) => {
+				kettle.connect_async.end(res);
+				toggle_kettle_if_pending();
+			});
 		}
 
 		private void toggle_kettle()
 		{
-			boil_btn.active = !boil_btn.active;
-			boil_btn.toggled();
+			if(!kettle.is_ready) return;
+			kettle.toggle();
 			Boiler.Application.instance.kettle_toggle_pending = false;
+		}
+
+		private void toggle_kettle_if_pending()
+		{
+			if(kettle.is_ready && kettle.is_paired && Boiler.Application.instance.kettle_toggle_pending)
+			{
+				Timeout.add(100, () => {
+					if(Boiler.Application.instance.kettle_toggle_pending) toggle_kettle();
+					return Source.REMOVE;
+				});
+			}
 		}
 
 		private void update()
@@ -165,13 +183,7 @@ namespace Boiler.UI.Views.Kettle
 					description_label.label = kettle.description;
 					description_label.tooltip_text = kettle.status;
 
-					if(kettle.is_connected && kettle.is_paired && Boiler.Application.instance.kettle_toggle_pending)
-					{
-						Timeout.add(100, () => {
-							if(Boiler.Application.instance.kettle_toggle_pending) toggle_kettle();
-							return Source.REMOVE;
-						});
-					}
+					toggle_kettle_if_pending();
 
 					if(window == null || window.get_toplevel() == null)
 					{

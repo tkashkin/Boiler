@@ -1,3 +1,9 @@
+com.github.tkashkin.boiler (0.1.3) xenial; urgency=low
+
+  * More stable connecting/reconnecting
+
+ -- tkashkin <tkashkin@gmail.com>  Sun, 12 Aug 2018 20:30:14 +0300
+
 com.github.tkashkin.boiler (0.1.2) xenial; urgency=low
 
   * Updated appdata

@@ -10,6 +10,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 
 	private bool is_authenticated = false;
 
+	private bool reconnect_thread_running = false;
 	private bool auth_thread_running = false;
 	private bool status_thread_running = false;
 
@@ -20,6 +21,8 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	private Bluez.GATTCharacteristic? cmd_char;
 	private Bluez.GATTCharacteristic? res_char;
 	
+	private SourceFunc connect_callback;
+
 	public RK_G2XX(Bluez.Device device, Bluez.Manager btmgr)
 	{
 		Object(bt_device: device, btmgr: btmgr);
@@ -37,14 +40,14 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 				auth_key = DEFAULT_AUTH_KEY;
 			}
 		}
-
-		bt_connect();
 	}
 
-	private void bt_connect()
+	public override async void connect_async()
 	{
-		if(is_connected) return;
+		connect_callback = connect_async.callback;
 		
+		if(is_connected) return;
+
 		log("Connecting to %s [%s]".printf(bt_device.name, bt_device.address));
 
 		try
@@ -64,11 +67,13 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 							char_added(@char);
 							return true;
 						});
+						btmgr.characteristic_added.connect(char_added);
 					}
 				}
 				catch(Error e)
 				{
 					warning(e.message);
+					reconnect();
 				}
 			});
 		}
@@ -76,19 +81,25 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 		{
 			warning(e.message);
 		}
+
+		yield;
 	}
 	
 	private void reconnect()
 	{
 		log("Reconnecting to %s [%s]".printf(bt_device.name, bt_device.address));
 
+		if(reconnect_thread_running) return;
 		new Thread<void*>("RK-G2XX-reconnect-thread", () => {
 			while(true)
 			{
-				bt_connect();
+				reconnect_thread_running = true;
+				connect_async.begin();
 				Thread.usleep(5000000);
 				if(is_connected) break;
 			}
+
+			reconnect_thread_running = false;
 
 			return null;
 		});
@@ -115,7 +126,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 	private void init()
 	{
 		if(cmd_char == null || res_char == null) return;
-		
+
 		log("Init");
 		
 		try
@@ -127,6 +138,8 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 			warning(e.message);
 		}
 		
+		if(connect_callback != null) Idle.add(connect_callback);
+
 		auth();
 	}
 	
@@ -167,6 +180,7 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 		
 		if(auth_thread_running) return;
 		new Thread<void*>("RK-G2XX-auth-thread", () => {
+			var tries = 0;
 			while(true)
 			{
 				auth_thread_running = true;
@@ -176,7 +190,8 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 				if(res.length < 4 || res[3] == 0)
 				{
 					log("Authentication failed, retrying...");
-					is_paired = false;
+					tries++;
+					if(tries > 5) is_paired = false;
 					Thread.usleep(1000000);
 				}
 				else
@@ -210,7 +225,6 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 		send_command(Command.STOP_BOILING, {});
 		is_boiling = false;
 	}
-	
 	private string get_fw_version()
 	{
 		log("Getting firmware version...");
@@ -226,11 +240,14 @@ public class Boiler.Devices.Kettle.Redmond.RK_G2XX: Boiler.Devices.Abstract.BTKe
 			{
 				status_thread_running = true;
 				var status = send_command(Command.STATUS, {});
-				if(status.length < 12) break;
-				temperature = status[8];
-				is_boiling = status[11] != 0;
-				Thread.usleep(is_boiling || temperature > 95 ? 1000000 : 10000000);
-				if(!is_authenticated || !is_connected)
+				is_ready = status.length == 20;
+				if(is_ready)
+				{
+					temperature = status[8];
+					is_boiling = status[11] != 0;
+					Thread.usleep(is_boiling || temperature > 95 ? 1000000 : 10000000);
+				}
+				if(!is_ready || !is_authenticated || !is_connected)
 				{
 					reconnect();
 					break;
