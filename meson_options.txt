@@ -1,6 +1,10 @@
+option('with_app', type: 'boolean', value: true)
+option('with_daemon', type: 'boolean', value: true)
+
+option('with_plugins', type: 'boolean', value: true)
+option('plugins', type: 'array', choices: ['rk_g2xx'])
+
+option('daemon_systemd_service', type: 'boolean', value: true)
+
 option('flatpak', type: 'boolean', value: false)
 option('snap', type: 'boolean', value: false)
-
-option('use_ivy', type: 'boolean', value: true)
-
-option('wingpanel_indicator', type: 'boolean', value: false)
