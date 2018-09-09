@@ -1,0 +1,13 @@
+[Unit]
+Description=Boiler daemon
+Requires=bluetooth.target
+After=bluetooth.target
+ConditionPathIsDirectory=/sys/class/bluetooth
+
+[Service]
+Type=simple
+ExecStart=@DAEMON_BINARY@
+Restart=no
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+	<schema path="/com/github/tkashkin/boiler/plugins/devices/kettle/redmond/rk-g2xx/"
+		id="com.github.tkashkin.boiler.plugins.devices.kettle.redmond.rk-g2xx" gettext-domain="com.github.tkashkin.boiler">
+		<key name="auth-key" type="s">
+			<default>''</default>
+		</key>
+	</schema>
+</schemalist>
