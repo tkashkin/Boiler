@@ -44,4 +44,4 @@ sudo ninja install
 ```
 
 ## Screenshots
-<p align="center"><img src="data/screenshots/connect.png?raw=true" /><img src="data/screenshots/kettle_not_paired.png?raw=true" width="49%" /><img src="data/screenshots/kettle_64.png?raw=true" width="49%" /> <img src="data/screenshots/kettle_80.png?raw=true" width="49%" /><img src="data/screenshots/kettle_100.png?raw=true" width="49%" /></p>
+<p align="center"><img src="modules/application/data/screenshots/connect.png?raw=true" /><img src="modules/application/data/screenshots/kettle_not_paired.png?raw=true" width="49%" /><img src="modules/application/data/screenshots/kettle_64.png?raw=true" width="49%" /> <img src="modules/application/data/screenshots/kettle_80.png?raw=true" width="49%" /><img src="modules/application/data/screenshots/kettle_100.png?raw=true" width="49%" /></p>
