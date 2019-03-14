@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.tkashkin.boiler package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.tkashkin.boiler\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-07 22:39+0300\n"
+"PO-Revision-Date: 2019-03-14 20:52+0100\n"
+"Language-Team: Dutch <vistausss@outlook.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.1.1\n"
+"Last-Translator: Heimen Stoffels <vistausss@outlook.com>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: nl_NL\n"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:8
+#: data/com.github.tkashkin.boiler.desktop.in:3
+#: data/com.github.tkashkin.boiler.desktop.in:4
+#: src/ui/windows/MainWindow.vala:24
+msgid "Boiler"
+msgstr "Boiler"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:9
+#: data/com.github.tkashkin.boiler.desktop.in:5
+msgid "Control your kettle remotely"
+msgstr "Bedien je waterkoker op afstand"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:12
+msgid "Simple app to control smart kettles using bluetooth."
+msgstr "Eenvoudige app om slimme waterkokers te bedienen via Bluetooth."
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:13
+msgid "Supported devices:"
+msgstr "Ondersteunde apparaten:"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:15
+msgid "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (tested)"
+msgstr "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (getest)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:16
+msgid "other Redmond Skykettle 2nd-gen devices (RK-G2xx) (not tested)"
+msgstr "overige Redmond Skykettle-apparaten van de 2e generatie (RK-G2xx) (ongetest)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:18
+msgid "Note: Bluetooth 4.0 adapter with BLE support required."
+msgstr "Let op: je hebt een Bluetooth 4.0-adapter met BLE-ondersteuning nodig."
+
+#: data/com.github.tkashkin.boiler.desktop.in:7
+msgid "Kettle;Teapot;Redmond;Remote;Control;"
+msgstr "Waterkoker;Theepot;Redmond;Afstand;Bediening;"
+
+#: data/com.github.tkashkin.boiler.desktop.in:16
+msgid "Enable/Disable"
+msgstr "In-/uitschakelen"
+
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "No devices"
+msgstr "Geen apparaten"
+
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "Make sure devices are in bluetooth range"
+msgstr "Zorg ervoor dat je apparaten zich bevinden binnen het bereik van Bluetooth"
+
+#: src/ui/views/connect/DeviceRow.vala:38
+msgid "Connect"
+msgstr "Verbinden"
+
+#: src/ui/views/kettle/KettleView.vala:162
+msgid "Disable"
+msgstr "Uitschakelen"
+
+#: src/ui/views/kettle/KettleView.vala:162
+msgid "Enable"
+msgstr "Inschakelen"
+
+#: src/devices/kettle/redmond/RK_G2XX.vala:29
+msgid ""
+"Your PC is not paired to the kettle.\n"
+"Hold kettle power button for 5 seconds"
+msgstr ""
+"Je computer nog niet gekoppeld aan je waterkoker.\n"
+"Houd de aan-/uitknop op je waterkoker 5 seconden ingedrukt."
