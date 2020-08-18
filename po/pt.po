@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the com.github.tkashkin.boiler package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: com.github.tkashkin.boiler\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-07 22:39+0300\n"
+"PO-Revision-Date: 2020-08-18 14:08+0100\n"
+"Language-Team: Portuguese (Portugal)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.4.1\n"
+"Last-Translator: André Barata <andretiagob@protonmail.com\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: pt\n"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:8
+#: data/com.github.tkashkin.boiler.desktop.in:3
+#: data/com.github.tkashkin.boiler.desktop.in:4
+#: src/ui/windows/MainWindow.vala:24
+msgid "Boiler"
+msgstr "Boiler"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:9
+#: data/com.github.tkashkin.boiler.desktop.in:5
+msgid "Control your kettle remotely"
+msgstr "Controle a sua chaleira remotamente"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:12
+msgid "Simple app to control smart kettles using bluetooth."
+msgstr "Uma aplicação simples que controla chaleiras inteligentes usando o bluetooth."
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:13
+msgid "Supported devices:"
+msgstr "Dispositivos suportados:"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:15
+msgid "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (tested)"
+msgstr "Redmond Skykettle RK-G200S, RK-G210S, RK-G211S (testado)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:16
+msgid "other Redmond Skykettle 2nd-gen devices (RK-G2xx) (not tested)"
+msgstr "outros Redmond Skykettle 2ª geração de dispositivos (RK-G2xx) (não testado)"
+
+#: data/com.github.tkashkin.boiler.appdata.xml.in:18
+msgid "Note: Bluetooth 4.0 adapter with BLE support required."
+msgstr "Nota: É necessário um adaptador Bluetooth 4.0 com suporte BLE."
+
+#: data/com.github.tkashkin.boiler.desktop.in:7
+msgid "Kettle;Teapot;Redmond;Remote;Control;"
+msgstr "Kettle;Bules;Redmond;Remoto;Controlo;"
+
+#: data/com.github.tkashkin.boiler.desktop.in:16
+msgid "Enable/Disable"
+msgstr "Ativar/Desativar"
+
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "No devices"
+msgstr "Nenhum dispositivo"
+
+#: src/ui/views/connect/ConnectView.vala:32
+msgid "Make sure devices are in bluetooth range"
+msgstr "Certifique-se que os seus dispositivos estão dentro do alcance do bluetooth"
+
+#: src/ui/views/connect/DeviceRow.vala:38
+msgid "Connect"
+msgstr "Conectar"
+
+#: src/ui/views/kettle/KettleView.vala:162
+msgid "Disable"
+msgstr "Desativar"
+
+#: src/ui/views/kettle/KettleView.vala:162
+msgid "Enable"
+msgstr "Ligar"
+
+#: src/devices/kettle/redmond/RK_G2XX.vala:29
+msgid ""
+"Your PC is not paired to the kettle.\n"
+"Hold kettle power button for 5 seconds"
+msgstr ""
+"O seu PC não está emparelhado com a chaleira.\n"
+"Mantenha pressionado o botão de energia durante 5 segundos"
